@@ -7,15 +7,28 @@ class Screen2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('images/screen2.png'),
-          fit: BoxFit.cover,
-        ),
+      color: Colors.white
       ),
+      padding: EdgeInsets.only(top: 150,bottom: 100),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+   
         children: [
-         
+          Image.asset(
+            'images/s2.png',
+            width: MediaQuery.of(context).size.width * 0.7,
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          
+          const Text(
+            "Subscription",
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 32,
+            ),
+          ),
         ],
       ),
     );
