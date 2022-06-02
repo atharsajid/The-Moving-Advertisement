@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "948548216456",
+    "project_id": "the-moving-advertisement-5e129",
+    "storage_bucket": "the-moving-advertisement-5e129.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948548216456:android:a7170094e62a3d7ee5213d",
+        "android_client_info": {
+          "package_name": "com.example.the_moving_advertisement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948548216456-bkfq2p1oid98samt7qtrn68vgq84r9kq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABcpz7ZZxlMQIJ8oCAuAbpZx4iucxZ5uQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948548216456-bkfq2p1oid98samt7qtrn68vgq84r9kq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
