@@ -7,20 +7,19 @@ class Screen1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 150,bottom: 100),
+      padding: const EdgeInsets.only(top: 150, bottom: 100),
       decoration: const BoxDecoration(
         color: Colors.white,
       ),
       child: Column(
         children: [
           Image.asset(
-            'images/s3.png',
+            'images/s2.png',
             width: MediaQuery.of(context).size.width * 0.7,
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
-          
           const Text(
             "The Moving Advertisement",
             style: TextStyle(
@@ -29,7 +28,7 @@ class Screen1 extends StatelessWidget {
               fontSize: 32,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Text(
@@ -40,20 +39,19 @@ class Screen1 extends StatelessWidget {
                 fontSize: 22,
                 letterSpacing: 2),
           ),
-          Spacer(),
-           Padding(
-             padding: const EdgeInsets.symmetric(horizontal: 30),
-             child: Text(
-              
-              "TMA is the best way to advertise products. It allows to chose location, radius and time to advertise product on targeted people.",
+          const Spacer(),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: Text(
+              "TMA is the best way to advertise products. It allows to choose locations, radius and time to help advertise product on targeted people.",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 18,
               ),
               textAlign: TextAlign.justify,
+            ),
           ),
-           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
         ],

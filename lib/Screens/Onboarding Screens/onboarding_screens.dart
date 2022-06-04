@@ -26,12 +26,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBody: true,
       body: GetBuilder<SplashScreenController>(
         builder: (scontroller) {
           return PageView(
             controller: controller,
-            children: [
+            children: const [
               Screen1(),
               Screen2(),
               Screen3(),
@@ -44,7 +45,6 @@ class _SplashScreenState extends State<SplashScreen> {
         elevation: 0,
         child: SizedBox(
           height: 70,
-         
           child: Center(
             child: SmoothPageIndicator(
               controller: controller,

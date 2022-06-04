@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
+import 'package:the_moving_advertisement/Screens/Driver%20Screens/Login/login.dart';
+import 'package:the_moving_advertisement/Screens/Users%20Screens/Login/login.dart';
 
 class Screen3 extends StatelessWidget {
   const Screen3({Key? key}) : super(key: key);
@@ -13,20 +16,66 @@ class Screen3 extends StatelessWidget {
       padding: const EdgeInsets.only(top: 150, bottom: 100),
       child: Column(
         children: [
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Text(
+          //       "Welcome to",
+          //       style: TextStyle(
+          //         color: Colors.black,
+          //         fontWeight: FontWeight.bold,
+          //         fontSize: 32,
+          //       ),
+          //     ),
+          //     Text(
+          //       " TMA",
+          //       style: TextStyle(
+          //         color: secondary,
+          //         fontWeight: FontWeight.bold,
+          //         fontSize: 32,
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(
+          //   height: 30,
+          // ),
           Image.asset(
-            'images/s1.png',
+            'images/s3.png',
             width: MediaQuery.of(context).size.width * 0.7,
           ),
           const SizedBox(
             height: 30,
           ),
+
           const Text(
-            "Live Tracking",
+            "Let's Get Started",
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 32,
             ),
+          ),
+          const Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Join Us ",
+                style: TextStyle(
+                  color: primary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
+              const Text(
+                "today to grow your business.",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 22,
+                ),
+              ),
+            ],
           ),
           const Spacer(),
           const Text(
@@ -40,7 +89,9 @@ class Screen3 extends StatelessWidget {
             height: 5,
           ),
           OutlinedButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(const UserLogin());
+            },
             style: OutlinedButton.styleFrom(
               primary: Colors.white,
               backgroundColor: primary,
@@ -62,7 +113,9 @@ class Screen3 extends StatelessWidget {
             height: 10,
           ),
           OutlinedButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.to(const DriverLogin());
+            },
             style: OutlinedButton.styleFrom(
               primary: primary,
               backgroundColor: Colors.white,
