@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:the_moving_advertisement/Screens/Users%20Screens/Home%20Screen/home_screen.dart';
-
 import '../Home Screen/home_screen.dart';
 
 class AboutUs extends StatelessWidget {

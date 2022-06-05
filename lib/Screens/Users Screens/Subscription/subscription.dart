@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Create%20Ads/create_ads.dart';
+import 'package:the_moving_advertisement/Screens/Users%20Screens/Subscription/controller.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Subscription/model.dart';
 
 class Subscription extends StatelessWidget {
@@ -12,7 +13,7 @@ class Subscription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = CarouselController();
+    final slidercontroller = Get.put(SliderController());
     return Scaffold(
       backgroundColor: customWhiteColor,
       appBar: AppBar(
@@ -40,42 +41,56 @@ class Subscription extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        CarouselSlider.builder(
-          itemCount: subsList.length,
-          itemBuilder: (context, index, realIndex) {
-            return buildMemes(index);
-          },
-          carouselController: controller,
-          options: CarouselOptions(
-            height: MediaQuery.of(context).size.height * 0.7,
-            enlargeCenterPage: true,
-            enlargeStrategy: CenterPageEnlargeStrategy.height,
-            onPageChanged: (index, reason) {},
-          ),
-        ),
+        GetBuilder<SliderController>(builder: (controller) {
+          return CarouselSlider.builder(
+            itemCount: subsList.length,
+            itemBuilder: (context, index, realIndex) {
+              return buildMemes(index);
+            },
+            carouselController: controller.controller,
+            options: CarouselOptions(
+              height: MediaQuery.of(context).size.height * 0.7,
+              enlargeCenterPage: true,
+              enlargeStrategy: CenterPageEnlargeStrategy.height,
+              onPageChanged: (index, reason) {
+                controller.index(index);
+              },
+            ),
+          );
+        }),
         const SizedBox(
           height: 10,
         ),
-        OutlinedButton(
-          onPressed: () {
-            Get.to(CreateAds());
-          },
-          style: OutlinedButton.styleFrom(
-              backgroundColor: primary,
-              primary: Colors.white,
-              minimumSize: const Size(150, 50),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(32),
+        GetBuilder<SliderController>(builder: (controller) {
+          return OutlinedButton(
+            onPressed: () {
+              controller.price(subsList[controller.activeIndex].price);
+              controller.indexSelected(controller.activeIndex);
+              Get.to(
+                CreateAds(
+                  tag: subsList[controller.selectedIndex].tag,
+                    index: controller.selectedIndex,
+                    price: controller.priceSelected,
+                    duration: subsList[controller.selectedIndex].duration),
+              );
+            },
+            style: OutlinedButton.styleFrom(
+                backgroundColor: primary,
+                primary: Colors.white,
+                minimumSize: const Size(150, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32),
+                ),
+                side: BorderSide.none),
+            child: Text(
+              "Subscribe",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
               ),
-              side: BorderSide.none),
-          child: Text(
-            "Subscribe",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
             ),
-          ),
-        ),
+          );
+        }),
         const SizedBox(
           height: 30,
         ),
@@ -141,7 +156,7 @@ class Subscription extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  subsList[index].price,
+                  "\$${subsList[index].price}",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 32,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
+import 'package:the_moving_advertisement/Screens/Driver%20Screens/About/about.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Ads%20Campaign/ads_campaign.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Profile/profile.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/About/about.dart';
@@ -63,7 +64,7 @@ Drawer driverDrawer() {
           ),
           TextButton.icon(
             onPressed: () {
-              Get.to(About());
+              Get.to(AboutUs());
             },
             icon: Icon(
               Icons.subtitles_rounded,

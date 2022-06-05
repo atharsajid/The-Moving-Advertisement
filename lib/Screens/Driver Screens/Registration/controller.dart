@@ -52,6 +52,8 @@ class DriverRegController extends GetxController {
         );
       }
     } catch (e) {
+      isLoad(false);
+
       print(e);
     }
   }

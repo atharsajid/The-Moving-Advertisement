@@ -1,10 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:the_moving_advertisement/Screens/Onboarding%20Screens/onboarding_screens.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Home%20Screen/home_screen.dart';
 import 'Constant/colors.dart';
-import 'Screens/Driver Screens/Home Screen/home_screen.dart';
-import 'Screens/Onboarding Screens/onboarding_screens.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: primary,
       ),
-      home: const DriverHomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }

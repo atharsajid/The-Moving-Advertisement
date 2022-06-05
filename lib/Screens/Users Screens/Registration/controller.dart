@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:get/get.dart';
+import 'package:the_moving_advertisement/Constant/pic_list.dart';
 
 class UserRegController extends GetxController {
   bool isLoading = false;
@@ -21,7 +22,7 @@ class UserRegController extends GetxController {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: email.text, password: password.text);
-      user(email.text, name.text, phone.text);
+      user(email.text, name.text, phone.text,picList[0]);
       isLoad(false);
       Get.snackbar(
         'Account Created',
@@ -52,6 +53,8 @@ class UserRegController extends GetxController {
         );
       }
     } catch (e) {
+      isLoad(false);
+
       print(e);
     }
   }
@@ -60,11 +63,13 @@ class UserRegController extends GetxController {
     String email,
     String name,
     String phone,
+    String image,
   ) async {
     await FirebaseFirestore.instance.collection("User").doc(email).set({
       "Name": name,
       "Email": email,
       "PhoneNo": phone,
+      "Image":image,
     });
   }
 }
