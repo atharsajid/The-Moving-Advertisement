@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Create%20Ads/controller.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Home%20Screen/home_screen.dart';
+import 'package:the_moving_advertisement/Screens/Users%20Screens/Login/controller.dart';
 
 class CreateAds extends StatefulWidget {
   int index;
@@ -297,21 +298,21 @@ class _CreateAdsState extends State<CreateAds> {
                           descriptionController.text,
                           controller.downloadurl,
                           widget.duration,
-                          'atharsajid@gmail.com',
+                          userEmail,
                         );
                         controller.mySubscription(
                             widget.index,
                             widget.tag,
                             widget.duration,
                             widget.price,
-                            'atharsajid@gmail.com');
+                            userEmail);
                         controller.adsCampaign(
                           titleController.text,
                           locationController.text,
                           descriptionController.text,
                           controller.downloadurl,
                           widget.duration,
-                          "atharsajid@gmail.com",
+                          userEmail,
                         );
                         titleController.clear();
                         locationController.clear();

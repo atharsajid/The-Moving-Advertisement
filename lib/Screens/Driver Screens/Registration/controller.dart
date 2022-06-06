@@ -16,12 +16,15 @@ class DriverRegController extends GetxController {
     TextEditingController password,
     TextEditingController name,
     TextEditingController phone,
+    String carImage,
+    String carName,
+    String image,
   ) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: email.text, password: password.text);
-      user(email.text, name.text, phone.text);
+      driver(email.text, name.text, phone.text, carImage, carName, image);
       isLoad(false);
       Get.snackbar(
         'Account Created',
@@ -58,15 +61,25 @@ class DriverRegController extends GetxController {
     }
   }
 
-  user(
+  driver(
     String email,
     String name,
     String phone,
+    String carImage,
+    String carName,
+    String image,
   ) async {
-    await FirebaseFirestore.instance.collection("Driver").doc(email).set({
+    await FirebaseFirestore.instance
+        .collection("Driver")
+        .doc(email)
+        .collection("Profile")
+        .add({
       "Name": name,
       "Email": email,
       "PhoneNo": phone,
+      "CarImage": carImage,
+      "CarName": carName,
+      "Image": image,
     });
   }
 }

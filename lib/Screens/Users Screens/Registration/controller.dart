@@ -65,7 +65,7 @@ class UserRegController extends GetxController {
     String phone,
     String image,
   ) async {
-    await FirebaseFirestore.instance.collection("User").doc(email).set({
+    await FirebaseFirestore.instance.collection("User").doc(email).collection("Profile").add({
       "Name": name,
       "Email": email,
       "PhoneNo": phone,

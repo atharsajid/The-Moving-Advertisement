@@ -9,11 +9,11 @@ class UserProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  dynamic user = FirebaseFirestore.instance
+dynamic  user = FirebaseFirestore.instance
           .collection("User")
-          .doc('ather@gamil.com')
+          .doc(userEmail)
+          .collection("Profile")
           .snapshots();
-    final loginController = Get.put(UserLoginController());
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -28,28 +28,26 @@ class UserProfile extends StatelessWidget {
         elevation: 0,
         foregroundColor: Colors.black,
       ),
-      body:StreamBuilder<QuerySnapshot>(
-                stream: user,
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Something went wrong');
-                  }
+      body: StreamBuilder<QuerySnapshot>(
+        stream: user,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
 
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
 
-                  return ListView(
-                      reverse: true,
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      children:
-                          snapshot.data!.docs.map((DocumentSnapshot document) {
-                        Map<String, dynamic> data =
-                            document.data()! as Map<String, dynamic>;
-                        return Column(
+          return ListView(
+              reverse: true,
+              physics: BouncingScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                Map<String, dynamic> data =
+                    document.data()! as Map<String, dynamic>;
+                return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -90,30 +88,7 @@ class UserProfile extends StatelessWidget {
                   ],
                 );
 
-                // GestureDetector(
-                //   onTap: () {
-                //     Get.to(
-                //       Message(
-                //         name: data["Name"],
-                //         email: data["Email"],
-                //         photUrl: data["PhotUrl"],
-                //       ),
-                //     );
-                //   },
-                //   child: ListTile(
-                //     leading: CircleAvatar(
-                //       backgroundImage: NetworkImage(data["PhotUrl"]),
-                //       radius: 18,
-                //     ),
-                //     title: Text(
-                //       data["Name"],
-                //       style: TextStyle(
-                //         color: white,
-                //         fontSize: 18,
-                //       ),
-                //     ),
-                //   ),
-                // );
+               
               }).toList());
         },
       ),

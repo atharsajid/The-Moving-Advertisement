@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 
 import '../Home Screen/home_screen.dart';
 
+String userEmail = '';
+
 class UserLoginController extends GetxController {
-  var currentEmail;
-  dynamic user;
   bool isLoading = false;
   isLoad(bool isloading) {
     isLoading = isloading;
@@ -18,16 +18,12 @@ class UserLoginController extends GetxController {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email.text, password: pass.text);
-      currentEmail = FirebaseAuth.instance.currentUser!.email;
-     user = FirebaseFirestore.instance
-          .collection("User")
-          .doc(currentEmail)
-          .snapshots();
+      userEmail = email.text;
 
-      print(currentEmail);
-      print(user);
+
+
       isLoad(false);
-      Get.off(const HomeScreen());
+      Get.off(HomeScreen());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         isLoad(false);
@@ -48,4 +44,8 @@ class UserLoginController extends GetxController {
       }
     }
   }
+
+
 }
+
+var currentEmail;

@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: primary,
       ),
-      home: const HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }

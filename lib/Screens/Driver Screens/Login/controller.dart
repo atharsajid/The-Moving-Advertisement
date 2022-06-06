@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import '../Home Screen/home_screen.dart';
 
+String driverEmail = '';
+
 class DriverLoginController extends GetxController {
   bool isLoading = false;
   isLoad(bool isloading) {
@@ -15,6 +17,9 @@ class DriverLoginController extends GetxController {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email.text, password: pass.text);
       isLoad(false);
+
+      driverEmail = email.text;
+      print(driverEmail);
       Get.off(const DriverHomeScreen());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

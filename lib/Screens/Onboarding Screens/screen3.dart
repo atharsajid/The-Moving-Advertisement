@@ -4,6 +4,7 @@ import 'package:the_moving_advertisement/Constant/colors.dart';
 import 'package:the_moving_advertisement/Constant/pic_list.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Login/login.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Login/login.dart';
+import 'package:the_moving_advertisement/Screens/Users%20Screens/Registration/car_list.dart';
 
 class Screen3 extends StatelessWidget {
   const Screen3({Key? key}) : super(key: key);
@@ -116,6 +117,8 @@ class Screen3 extends StatelessWidget {
           ),
           OutlinedButton(
             onPressed: () {
+              picList.shuffle();
+              carList.shuffle();
               Get.to(const DriverLogin());
             },
             style: OutlinedButton.styleFrom(

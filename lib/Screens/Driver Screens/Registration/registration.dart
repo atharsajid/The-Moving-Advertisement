@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
+import 'package:the_moving_advertisement/Constant/pic_list.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Registration/controller.dart';
+import 'package:the_moving_advertisement/Screens/Users%20Screens/Registration/car_list.dart';
 import '../Login/login.dart';
 
 class DriverRegistration extends StatefulWidget {
@@ -185,6 +187,9 @@ class _DriverRegistrationState extends State<DriverRegistration> {
                                           passcontroller,
                                           namecontroller,
                                           phonecontroller,
+                                          carList[0].image,
+                                          carList[0].name,
+                                          picList[0],
                                         );
                                         controller.isLoad(true);
                                       } else {
