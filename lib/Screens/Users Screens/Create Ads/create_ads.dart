@@ -1,11 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Create%20Ads/controller.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Home%20Screen/home_screen.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Login/controller.dart';
+import 'package:the_moving_advertisement/Screens/Users%20Screens/Payment/payment.dart';
+import 'package:http/http.dart' as http;
 
 class CreateAds extends StatefulWidget {
   int index;
@@ -28,6 +32,8 @@ class _CreateAdsState extends State<CreateAds> {
   TextEditingController titleController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+
+  Map<String, dynamic>? paymentIntentData;
 
   final storage = Get.put(StorageController());
   @override
@@ -287,37 +293,12 @@ class _CreateAdsState extends State<CreateAds> {
               ),
               GetBuilder<StorageController>(builder: (controller) {
                 return OutlinedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (titleController.text.isNotEmpty &&
                         locationController.text.isNotEmpty &&
                         descriptionController.text.isNotEmpty) {
                       if (controller.results != null) {
-                        controller.adsUpload(
-                          titleController.text,
-                          locationController.text,
-                          descriptionController.text,
-                          controller.downloadurl,
-                          widget.duration,
-                          userEmail,
-                        );
-                        controller.mySubscription(
-                            widget.index,
-                            widget.tag,
-                            widget.duration,
-                            widget.price,
-                            userEmail);
-                        controller.adsCampaign(
-                          titleController.text,
-                          locationController.text,
-                          descriptionController.text,
-                          controller.downloadurl,
-                          widget.duration,
-                          userEmail,
-                        );
-                        titleController.clear();
-                        locationController.clear();
-                        descriptionController.clear();
-                        controller.isSelect(false, null);
+                        await makePayment(widget.price.toString());
                       } else {
                         Get.snackbar('Required', 'Image must be selected');
                       }
@@ -351,5 +332,118 @@ class _CreateAdsState extends State<CreateAds> {
         ],
       ),
     );
+  }
+
+  Future<void> makePayment(String amount) async {
+    try {
+      paymentIntentData = await createPaymentIntent(
+          '${amount}', 'USD'); //json.decode(response.body);
+      // print('Response body==>${response.body.toString()}');
+      await Stripe.instance
+          .initPaymentSheet(
+              paymentSheetParameters: SetupPaymentSheetParameters(
+                  paymentIntentClientSecret:
+                      paymentIntentData!['client_secret'],
+                  applePay: true,
+                  googlePay: true,
+                  testEnv: true,
+                  style: ThemeMode.dark,
+                  merchantCountryCode: 'US',
+                  merchantDisplayName: 'ANNIE'))
+          .then((value) {});
+
+      ///now finally display payment sheeet
+      displayPaymentSheet();
+    } catch (e, s) {
+      print('exception:$e$s');
+    }
+  }
+
+  displayPaymentSheet() async {
+    try {
+      await Stripe.instance
+          .presentPaymentSheet(
+              parameters: PresentPaymentSheetParameters(
+        clientSecret: paymentIntentData!['client_secret'],
+        confirmPayment: true,
+      ))
+          .then((newValue) {
+        print('payment intent' + paymentIntentData!['id'].toString());
+        print(
+            'payment intent' + paymentIntentData!['client_secret'].toString());
+        print('payment intent' + paymentIntentData!['amount'].toString());
+        print('payment intent' + paymentIntentData.toString());
+        //orderPlaceApi(paymentIntentData!['id'].toString());
+        storage.adsUpload(
+          titleController.text,
+          locationController.text,
+          descriptionController.text,
+          storage.downloadurl,
+          widget.duration,
+          userEmail,
+        );
+        storage.mySubscription(
+            widget.index, widget.tag, widget.duration, widget.price, userEmail);
+        storage.adsCampaign(
+          titleController.text,
+          locationController.text,
+          descriptionController.text,
+          storage.downloadurl,
+          widget.duration,
+          userEmail,
+        );
+        titleController.clear();
+        locationController.clear();
+        descriptionController.clear();
+        storage.isSelect(false, null);
+        Get.snackbar(
+          "Ads Created Successfully",
+          "Your transaction has been performed successfully",
+          snackPosition: SnackPosition.BOTTOM,
+        );
+
+        paymentIntentData = null;
+      }).onError((error, stackTrace) {
+        print('Exception/DISPLAYPAYMENTSHEET==> $error $stackTrace');
+      });
+    } on StripeException catch (e) {
+      print('Exception/DISPLAYPAYMENTSHEET==> $e');
+      showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+                content: Text("Cancelled "),
+              ));
+    } catch (e) {
+      print('$e');
+    }
+  }
+
+  //  Future<Map<String, dynamic>>
+  createPaymentIntent(String amount, String currency) async {
+    try {
+      Map<String, dynamic> body = {
+        'amount': calculateAmount(amount),
+        'currency': currency,
+        'payment_method_types[]': 'card'
+      };
+      print(body);
+      var response = await http.post(
+          Uri.parse('https://api.stripe.com/v1/payment_intents'),
+          body: body,
+          headers: {
+            'Authorization':
+                'Bearer sk_test_51L87iZLWfZkyaxftNz3VuJ2rEhk7sSG5s664aMzdLhz3idDVBT0q40Q3Ff7nfS3cNz1z6wUAVgS1pItgRTA8ayup00UvhlvmaI',
+            'Content-Type': 'application/x-www-form-urlencoded'
+          });
+      print('Create Intent reponse ===> ${response.body.toString()}');
+      return jsonDecode(response.body);
+    } catch (err) {
+      print('err charging user: ${err.toString()}');
+    }
+  }
+
+  calculateAmount(String amount) {
+    final a = (int.parse(amount)) * 100;
+    return a.toString();
   }
 }

@@ -1,23 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:the_moving_advertisement/Screens/Driver%20Screens/Ads%20Campaign/ads_widget.dart';
-import 'package:the_moving_advertisement/Screens/Driver%20Screens/Ads%20Campaign/controller.dart';
-import 'package:the_moving_advertisement/Screens/Driver%20Screens/Login/controller.dart';
+import 'package:the_moving_advertisement/Screens/Users%20Screens/Home%20Screen/home_screen.dart';
 
 import '../../../Constant/colors.dart';
+import '../Login/controller.dart';
 
-class AdsCampaign extends StatelessWidget {
-  const AdsCampaign({Key? key}) : super(key: key);
+class UserActiveAds extends StatelessWidget {
+  const UserActiveAds({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final adController = Get.put(AdsController());
-    dynamic adsCamp =
-        FirebaseFirestore.instance.collection("AdsCampaign").snapshots();
+    dynamic activeAds = FirebaseFirestore.instance
+        .collection("User")
+        .doc(userEmail)
+        .collection("ActiveAds")
+        .snapshots();
     return Scaffold(
+      appBar: AppBar(
+        foregroundColor: Colors.black,
+        leading: IconButton(
+            onPressed: () {
+              Get.to(HomeScreen());
+            },
+            icon: Icon(Icons.arrow_back_ios),),
+            title: Text('Active Ads'),
+          backgroundColor: Colors.transparent,
+elevation: 0,      ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: adsCamp,
+        stream: activeAds,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
@@ -108,8 +119,8 @@ class AdsCampaign extends StatelessWidget {
                           child: IconButton(
                             onPressed: () {
                               Get.dialog(AlertDialog(
-                                title: Text("Confirm"),
-                                content: Text("Are your sure to avail this Ad"),
+                                title: Text("Close"),
+                                content: Text("Are your sure to close this Ad"),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
@@ -117,40 +128,18 @@ class AdsCampaign extends StatelessWidget {
                                     },
                                     child: Text("Cancel"),
                                   ),
-                                  GetBuilder<AdsController>(
-                                      builder: (controller) {
-                                    return TextButton(
-                                      onPressed: () {
-                                        userAdEmail = data["email"];
-                                        // controller.getThisAd(
-                                        //   data["title"],
-                                        //   data["location"],
-                                        //   data["description"],
-                                        //   data["image"],
-                                        //   data["duration"],
-                                        //   driverEmail,
-                                        //   data["email"],
-                                        // );
-                                        controller.userActiveAd(
-                                          data["title"],
-                                          data["location"],
-                                          data["description"],
-                                          data["image"],
-                                          data["duration"],
-                                          driverEmail,
-                                          userAdEmail,
-                                        );
-                                        document.reference.delete();
-                                        Get.back();
-                                      },
-                                      child: Text("Confirm"),
-                                    );
-                                  }),
+                                  TextButton(
+                                    onPressed: () {
+                                      document.reference.delete();
+                                      Get.back();
+                                    },
+                                    child: Text("Confirm"),
+                                  ),
                                 ],
                               ));
                             },
                             icon: Icon(
-                              Icons.add,
+                              Icons.close,
                               color: Colors.white,
                             ),
                           ),
@@ -165,5 +154,3 @@ class AdsCampaign extends StatelessWidget {
     );
   }
 }
-
-String userAdEmail = driverEmail;

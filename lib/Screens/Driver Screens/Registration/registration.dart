@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
 import 'package:the_moving_advertisement/Constant/pic_list.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Registration/controller.dart';
@@ -182,16 +183,24 @@ class _DriverRegistrationState extends State<DriverRegistration> {
                                         phonecontroller.text.isNotEmpty &&
                                         passcontroller.text.isNotEmpty) {
                                       if (phonecontroller.text.length == 11) {
-                                        controller.registration(
-                                          emailcontroller,
-                                          passcontroller,
-                                          namecontroller,
-                                          phonecontroller,
-                                          carList[0].image,
-                                          carList[0].name,
-                                          picList[0],
-                                        );
-                                        controller.isLoad(true);
+                                        bool result =
+                                            await InternetConnectionChecker()
+                                                .hasConnection;
+                                        if (result == true) {
+                                          controller.registration(
+                                            emailcontroller,
+                                            passcontroller,
+                                            namecontroller,
+                                            phonecontroller,
+                                            carList[0].image,
+                                            carList[0].name,
+                                            picList[0],
+                                          );
+                                          controller.isLoad(true);
+                                        } else {
+                                          Get.snackbar("Network Error",
+                                              "Please check your internet connection",snackPosition: SnackPosition.BOTTOM,);
+                                        }
                                       } else {
                                         Get.snackbar(
                                           'Invalid Number',

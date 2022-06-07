@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
+import 'package:the_moving_advertisement/Screens/Users%20Screens/Active%20Ads/active_ads.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Login/controller.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Subscription/my_subscription.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Subscription/subscription.dart';
@@ -19,6 +21,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  // Future initState()  async{
+  //   final prefs = await SharedPreferences.getInstance();
+  //   userEmail = prefs.getString('userEmail').toString();
+
+  //   super.initState();
+  // }
+
   dynamic user = FirebaseFirestore.instance
       .collection("User")
       .doc(userEmail)
@@ -190,7 +200,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 15,
                       ),
                       TextButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(UserActiveAds());
+                        },
                         icon: Icon(
                           Icons.ad_units,
                           color: Colors.black,

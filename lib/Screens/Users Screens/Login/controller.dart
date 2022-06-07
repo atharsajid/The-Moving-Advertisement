@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Home Screen/home_screen.dart';
 
@@ -19,8 +20,9 @@ class UserLoginController extends GetxController {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email.text, password: pass.text);
       userEmail = email.text;
-
-
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('userEmail', userEmail);
+      prefs.setBool('showHome', true);
 
       isLoad(false);
       Get.off(HomeScreen());
@@ -44,8 +46,6 @@ class UserLoginController extends GetxController {
       }
     }
   }
-
-
 }
 
 var currentEmail;

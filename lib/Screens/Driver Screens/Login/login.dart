@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Login/controller.dart';
 import '../Registration/registration.dart';
@@ -121,12 +122,20 @@ class _DriverLoginState extends State<DriverLogin> {
                             )
                           : IconButton(
                               color: Colors.white,
-                              onPressed: () {
+                              onPressed: () async {
                                 if (emailcontroller.text.isNotEmpty &&
                                     passcontroller.text.isNotEmpty) {
-                                  controller.signin(
-                                      emailcontroller, passcontroller);
-                                  controller.isLoad(true);
+                                  bool result =
+                                      await InternetConnectionChecker()
+                                          .hasConnection;
+                                  if (result == true) {
+                                    controller.signin(
+                                        emailcontroller, passcontroller);
+                                    controller.isLoad(true);
+                                  } else {
+                                    Get.snackbar("Network Error",
+                                        "Please check your internet connection",snackPosition: SnackPosition.BOTTOM,);
+                                  }
                                 } else {
                                   Get.snackbar(
                                     "Required",
