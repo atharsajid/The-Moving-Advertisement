@@ -6,11 +6,13 @@ class Screen2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(color: Colors.white),
-      padding: const EdgeInsets.only(top: 150, bottom: 120),
+    return SingleChildScrollView(
       child: Column(
         children: [
+          const SizedBox(
+            width: double.infinity,
+            height: 150,
+          ),
           Image.asset(
             'images/s1.png',
             width: MediaQuery.of(context).size.width * 0.7,
@@ -36,7 +38,9 @@ class Screen2 extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          const Spacer(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.2,
+          ),
           const Text(
             "TMA allows to track ads at anytime\nfrom anywhere",
             style: TextStyle(
@@ -44,6 +48,9 @@ class Screen2 extends StatelessWidget {
               fontSize: 18,
             ),
             textAlign: TextAlign.center,
+          ),
+          const SizedBox(
+            height: 35,
           ),
         ],
       ),

@@ -1,12 +1,9 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
-import 'package:the_moving_advertisement/Screens/Users%20Screens/Create%20Ads/create_ads.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Subscription/controller.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Subscription/model.dart';
-
 import '../Login/controller.dart';
 
 class MySubscription extends StatelessWidget {
@@ -39,15 +36,15 @@ class MySubscription extends StatelessWidget {
         stream: user,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text('Something went wrong');
+            return const Text('Something went wrong');
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           return ListView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -78,7 +75,7 @@ class MySubscription extends StatelessWidget {
                           color: secondary,
                           borderRadius: BorderRadius.circular(18),
                         ),
-                        child: Text(
+                        child: const Text(
                           "Subscribed",
                           style: TextStyle(
                             color: Colors.white,
@@ -101,7 +98,7 @@ class MySubscription extends StatelessWidget {
 Widget buildSubscription(int index, BuildContext context) {
   return Container(
     width: MediaQuery.of(context).size.width * 0.75,
-    height: MediaQuery.of(context).size.height * 0.65,
+    height: 550,
     // width: 200,
     clipBehavior: Clip.antiAlias,
     padding: const EdgeInsets.symmetric(vertical: 0),
@@ -142,7 +139,7 @@ Widget buildSubscription(int index, BuildContext context) {
                     color: secondary, borderRadius: BorderRadius.circular(5)),
                 child: Text(
                   subsList[index].tag,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -151,7 +148,7 @@ Widget buildSubscription(int index, BuildContext context) {
               ),
               Text(
                 subsList[index].duration,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -159,7 +156,7 @@ Widget buildSubscription(int index, BuildContext context) {
               ),
               Text(
                 "\$${subsList[index].price}",
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -168,11 +165,11 @@ Widget buildSubscription(int index, BuildContext context) {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Padding(
-          padding: EdgeInsets.only(
+          padding: const EdgeInsets.only(
             top: 30,
             left: 20,
           ),
@@ -181,7 +178,7 @@ Widget buildSubscription(int index, BuildContext context) {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 16,
                     backgroundColor: Colors.black,
                     child: Icon(
@@ -189,24 +186,24 @@ Widget buildSubscription(int index, BuildContext context) {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   Text(
                     subsList[index].radius,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 16,
                     backgroundColor: Colors.black,
                     child: Icon(
@@ -214,24 +211,24 @@ Widget buildSubscription(int index, BuildContext context) {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   Text(
                     subsList[index].location,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 16,
                     backgroundColor: Colors.black,
                     child: Icon(
@@ -239,24 +236,24 @@ Widget buildSubscription(int index, BuildContext context) {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   Text(
                     subsList[index].hours,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 16,
                     backgroundColor: Colors.black,
                     child: Icon(
@@ -264,24 +261,24 @@ Widget buildSubscription(int index, BuildContext context) {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   Text(
                     subsList[index].get,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 16,
                     backgroundColor: Colors.black,
                     child: Icon(
@@ -289,12 +286,12 @@ Widget buildSubscription(int index, BuildContext context) {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15,
                   ),
                   Text(
                     subsList[index].tracking,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   )

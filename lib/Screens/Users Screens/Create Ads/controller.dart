@@ -86,8 +86,8 @@ class StorageController extends GetxController {
     await FirebaseFirestore.instance
         .collection("User")
         .doc(email)
-        .collection("MySubscription")
-        .add({
+        .collection("MySubscription").doc('Subscribed')
+        .set({
       "index": index,
       "tag": tag,
       "duration": duration,

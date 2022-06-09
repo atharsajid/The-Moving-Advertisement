@@ -72,4 +72,12 @@ class UserRegController extends GetxController {
       "Image":image,
     });
   }
+    driverLoation(
+      String email,
+    bool isActive
+  ) async {
+    await FirebaseFirestore.instance.collection("User").doc(email).collection("DriverLocation").doc('Location').set({
+    'IsActive':isActive
+    });
+  }
 }

@@ -5,23 +5,23 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_moving_advertisement/Screens/Onboarding%20Screens/onboarding_screens.dart';
-import 'package:the_moving_advertisement/Screens/Users%20Screens/Home%20Screen/home_screen.dart';
-import 'package:the_moving_advertisement/Screens/Users%20Screens/Login/controller.dart';
+import 'package:the_moving_advertisement/Screens/Users%20Screens/Splash%20Screen/splash_screen.dart';
 import 'Constant/colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, // transparent status bar
       statusBarIconBrightness: Brightness.dark // dark text for status bar
       ));
 
-       Stripe.publishableKey = 'pk_test_51L87iZLWfZkyaxftiU4wMEKblhWEnbSHI9XgNsTfaidVmYhADpQpOEhtxp5u1xt5Oe8qMJLlHbI3LtmQrdo58IUK00kQiVwpwK';
-
+  Stripe.publishableKey =
+      'pk_test_51L87iZLWfZkyaxftiU4wMEKblhWEnbSHI9XgNsTfaidVmYhADpQpOEhtxp5u1xt5Oe8qMJLlHbI3LtmQrdo58IUK00kQiVwpwK';
 
   final prefs = await SharedPreferences.getInstance();
   final showHome = prefs.getBool('showHome') ?? false;
+  isDriver = prefs.getBool('isDriver') ?? false;
   runApp(MyApp(
     showHome: showHome,
   ));
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: primary,
       ),
-      home:SplashScreen(),
+      home: showHome ? const Splash() : const SplashScreen(),
     );
   }
 }

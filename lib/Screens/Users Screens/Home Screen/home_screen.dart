@@ -1,18 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
+import 'package:the_moving_advertisement/Screens/Onboarding%20Screens/onboarding_screens.dart';
+import 'package:the_moving_advertisement/Screens/Shared%20Preferences/shared_preferences.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Active%20Ads/active_ads.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Login/controller.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Subscription/my_subscription.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Subscription/subscription.dart';
-
 import '../About/about.dart';
 import '../Profile/profile.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({
+  const HomeScreen({
     Key? key,
   }) : super(key: key);
 
@@ -22,13 +24,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
-  // Future initState()  async{
-  //   final prefs = await SharedPreferences.getInstance();
-  //   userEmail = prefs.getString('userEmail').toString();
+  late GoogleMapController googleMapController;
+  static const CameraPosition initialCameraPosition =
+      CameraPosition(target: LatLng(24.871951512, 67.0552456), zoom: 15.0);
 
-  //   super.initState();
-  // }
+  Set<Marker> markers = {};
 
+  dynamic getLocation = FirebaseFirestore.instance
+      .collection("User")
+      .doc(userEmail)
+      .collection("DriverLocation")
+      .snapshots();
   dynamic user = FirebaseFirestore.instance
       .collection("User")
       .doc(userEmail)
@@ -38,111 +44,222 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: customWhiteColor,
       appBar: AppBar(
         foregroundColor: Colors.black,
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       drawer: drawer(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Text(
-            "Live Tracking",
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            height: MediaQuery.of(context).size.height * 0.6,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: const AssetImage(
-                    'images/map.jpg',
-                  ),
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.1),
-                    BlendMode.darken,
-                  ),
-                ),
-                borderRadius: BorderRadius.circular(32),
-                color: customWhiteColor),
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    height: 60,
-                    width: 200,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18)),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 60,
-                          width: 50,
-                          color: Colors.black,
-                          child: const Icon(
-                            Icons.no_cell_rounded,
-                            color: Colors.white,
-                          ),
-                        ),
-                        Expanded(
-                            child: Container(
-                          alignment: Alignment.center,
-                          child: const Text(
-                            'No Active Ads',
+      body: StreamBuilder<QuerySnapshot>(
+        stream: getLocation,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return const Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return ListView(
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                Map<String, dynamic> data =
+                    document.data()! as Map<String, dynamic>;
+                return data['IsActive'] == true
+                    ? Column(
+                        children: [
+                          const Text(
+                            "Live Tracking",
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 32,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ))
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Spacer(),
-          const Text(
-            "Click here to get Subscription",
-            style: TextStyle(
-              fontSize: 18,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 10, bottom: 20),
-            height: 60,
-            width: 200,
-            decoration: BoxDecoration(
-              boxShadow: shadow,
-              color: secondary,
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: TextButton(
-              onPressed: () {
-                Get.to(const Subscription());
-              },
-              child: const Text(
-                'Get Subscription',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        ],
+                          Container(
+                            clipBehavior: Clip.antiAlias,
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
+                            height: MediaQuery.of(context).size.height * 0.7,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    offset: const Offset(7, 7),
+                                    blurRadius: 15,
+                                  ),
+                                  const BoxShadow(
+                                    color: Colors.white,
+                                    offset: Offset(-7, -7),
+                                    blurRadius: 12,
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(32),
+                                color: customWhiteColor),
+                            child: GoogleMap(
+                              initialCameraPosition: initialCameraPosition,
+                              markers: markers,
+                              zoomControlsEnabled: true,
+                              mapType: MapType.normal,
+                              onMapCreated: (GoogleMapController controller) {
+                                googleMapController = controller;
+                              },
+                            ),
+                          ),
+                          const Text(
+                            "Click here to get your Ad Location",
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 10, bottom: 20),
+                            height: 60,
+                            width: 200,
+                            decoration: BoxDecoration(
+                              boxShadow: shadow,
+                              color: secondary,
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            child: TextButton(
+                              onPressed: () async {
+                                googleMapController.animateCamera(
+                                  CameraUpdate.newCameraPosition(
+                                    CameraPosition(
+                                        target: LatLng(data['Latitude'],
+                                            data['Longtitude']),
+                                        zoom: 14),
+                                  ),
+                                );
+
+                                markers.clear();
+
+                                markers.add(Marker(
+                                    markerId: const MarkerId('currentLocation'),
+                                    position: LatLng(
+                                        data['Latitude'], data['Longtitude'])));
+
+                                setState(() {});
+                              },
+                              child: const Text(
+                                'Get Location',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            "Live Tracking",
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
+                            height: MediaQuery.of(context).size.height * 0.6,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: const AssetImage(
+                                    'images/map.jpg',
+                                  ),
+                                  fit: BoxFit.cover,
+                                  colorFilter: ColorFilter.mode(
+                                    Colors.black.withOpacity(0.1),
+                                    BlendMode.darken,
+                                  ),
+                                ),
+                                borderRadius: BorderRadius.circular(32),
+                                color: customWhiteColor),
+                            child: Stack(
+                              children: [
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Container(
+                                    height: 60,
+                                    width: 200,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(18)),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 60,
+                                          width: 50,
+                                          color: Colors.black,
+                                          child: const Icon(
+                                            Icons.no_cell_rounded,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        Expanded(
+                                            child: Container(
+                                          alignment: Alignment.center,
+                                          child: const Text(
+                                            'No Active Ads',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ))
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Text(
+                            "Click here to get Subscription",
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 10, bottom: 20),
+                            height: 60,
+                            width: 200,
+                            decoration: BoxDecoration(
+                              boxShadow: shadow,
+                              color: secondary,
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                Get.to(const Subscription());
+                              },
+                              child: const Text(
+                                'Get Subscription',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+              }).toList());
+        },
       ),
     );
   }
@@ -156,15 +273,15 @@ class _HomeScreenState extends State<HomeScreen> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
-              return Text('Something went wrong');
+              return const Text('Something went wrong');
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             return ListView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 children: snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -177,37 +294,37 @@ class _HomeScreenState extends State<HomeScreen> {
                         radius: 40,
                         backgroundImage: AssetImage(data["Image"]),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       Text(
                         data["Name"],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         data["Email"],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.grey,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       TextButton.icon(
                         onPressed: () {
-                          Get.to(UserActiveAds());
+                          Get.to(const UserActiveAds());
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.ad_units,
                           color: Colors.black,
                         ),
-                        label: Text(
+                        label: const Text(
                           'Active Ads',
                           style: TextStyle(
                             color: Colors.black,
@@ -217,18 +334,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       TextButton.icon(
                         onPressed: () {
                           Get.back();
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.location_on_rounded,
                           color: Colors.black,
                         ),
-                        label: Text(
+                        label: const Text(
                           'Live tracking',
                           style: TextStyle(
                             color: Colors.black,
@@ -238,18 +355,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       TextButton.icon(
                         onPressed: () {
-                          Get.to(Subscription());
+                          Get.to(const Subscription());
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.amp_stories,
                           color: Colors.black,
                         ),
-                        label: Text(
+                        label: const Text(
                           'Subscription',
                           style: TextStyle(
                             color: Colors.black,
@@ -259,18 +376,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       TextButton.icon(
                         onPressed: () {
-                          Get.to(MySubscription());
+                          Get.to(const MySubscription());
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.amp_stories_outlined,
                           color: Colors.black,
                         ),
-                        label: Text(
+                        label: const Text(
                           'My Subscription',
                           style: TextStyle(
                             color: Colors.black,
@@ -280,18 +397,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       TextButton.icon(
                         onPressed: () {
-                          Get.to(UserProfile());
+                          Get.to(const UserProfile());
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.person,
                           color: Colors.black,
                         ),
-                        label: Text(
+                        label: const Text(
                           'Profile',
                           style: TextStyle(
                             color: Colors.black,
@@ -301,18 +418,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       TextButton.icon(
                         onPressed: () {
-                          Get.to(About());
+                          Get.to(const About());
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.subtitles_sharp,
                           color: Colors.black,
                         ),
-                        label: Text(
+                        label: const Text(
                           'About',
                           style: TextStyle(
                             color: Colors.black,
@@ -322,16 +439,22 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       TextButton.icon(
-                        onPressed: () {},
+                        onPressed: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          UserDriverPreferences.setUserEmail(userEmail);
+                          prefs.setBool('showHome', false);
+                          prefs.setBool('isDriver', false);
+                          Get.off(const SplashScreen());
+                        },
                         icon: Icon(
                           Icons.logout,
                           color: primary,
                         ),
-                        label: Text(
+                        label: const Text(
                           'Logout',
                           style: TextStyle(
                             color: Colors.black,

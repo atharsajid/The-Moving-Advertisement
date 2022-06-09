@@ -5,7 +5,7 @@ import 'package:the_moving_advertisement/Screens/Driver%20Screens/About/about.da
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Active%20Ads/active_ads.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Ads%20Campaign/ads_campaign.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Past%20Ads/past_ads.dart';
-
+import 'package:the_moving_advertisement/Screens/Onboarding%20Screens/onboarding_screens.dart';
 import '../../../Constant/colors.dart';
 import '../Login/controller.dart';
 import '../Profile/profile.dart';
@@ -28,13 +28,13 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Driver's Dashboard"),
+          title: const Text("Driver's Dashboard"),
           foregroundColor: Colors.black,
           backgroundColor: Colors.transparent,
           elevation: 0,
           bottom: TabBar(tabs: [
             Column(
-              children: [
+              children: const [
                 Icon(
                   Icons.ad_units,
                   color: Colors.black,
@@ -46,7 +46,7 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
               ],
             ),
             Column(
-              children: [
+              children: const [
                 Icon(
                   Icons.amp_stories,
                   color: Colors.black,
@@ -58,7 +58,7 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
               ],
             ),
             Column(
-              children: [
+              children: const [
                 Icon(
                   Icons.refresh_rounded,
                   color: Colors.black,
@@ -72,7 +72,7 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
           ]),
         ),
         drawer: driverdrawer(),
-        body: TabBarView(children: [
+        body: const TabBarView(children: [
           AdsCampaign(),
           ActiveAds(),
           PastAds(),
@@ -88,15 +88,15 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
-              return Text('Something went wrong');
+              return const Text('Something went wrong');
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             return ListView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 children: snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -109,37 +109,37 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
                         radius: 40,
                         backgroundImage: AssetImage(data["Image"]),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       Text(
                         data["Name"],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         data["Email"],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.grey,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       TextButton.icon(
                         onPressed: () {
-                          Get.to(DriverProfile());
+                          Get.to(const DriverProfile());
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.person,
                           color: Colors.black,
                         ),
-                        label: Text(
+                        label: const Text(
                           'Profile',
                           style: TextStyle(
                             color: Colors.black,
@@ -149,18 +149,18 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 25,
                       ),
                       TextButton.icon(
                         onPressed: () {
-                          Get.to(AboutUs());
+                          Get.to(const AboutUs());
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.subtitles_rounded,
                           color: Colors.black,
                         ),
-                        label: Text(
+                        label: const Text(
                           'About',
                           style: TextStyle(
                             color: Colors.black,
@@ -170,16 +170,18 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 100,
                       ),
                       TextButton.icon(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.off(const SplashScreen());
+                        },
                         icon: Icon(
                           Icons.logout,
                           color: primary,
                         ),
-                        label: Text(
+                        label: const Text(
                           'Logout',
                           style: TextStyle(
                             color: Colors.black,

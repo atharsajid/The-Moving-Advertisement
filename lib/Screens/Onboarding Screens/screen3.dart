@@ -11,37 +11,13 @@ class Screen3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
-      padding: const EdgeInsets.only(top: 150, bottom: 100),
+    return SingleChildScrollView(
       child: Column(
         children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     Text(
-          //       "Welcome to",
-          //       style: TextStyle(
-          //         color: Colors.black,
-          //         fontWeight: FontWeight.bold,
-          //         fontSize: 32,
-          //       ),
-          //     ),
-          //     Text(
-          //       " TMA",
-          //       style: TextStyle(
-          //         color: secondary,
-          //         fontWeight: FontWeight.bold,
-          //         fontSize: 32,
-          //       ),
-          //     ),
-          //   ],
-          // ),
-          // const SizedBox(
-          //   height: 30,
-          // ),
+          const SizedBox(
+            width: double.infinity,
+            height: 150,
+          ),
           Image.asset(
             'images/s3.png',
             width: MediaQuery.of(context).size.width * 0.7,
@@ -49,7 +25,6 @@ class Screen3 extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-
           const Text(
             "Let's Get Started",
             style: TextStyle(
@@ -58,7 +33,9 @@ class Screen3 extends StatelessWidget {
               fontSize: 32,
             ),
           ),
-          const Spacer(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -79,7 +56,9 @@ class Screen3 extends StatelessWidget {
               ),
             ],
           ),
-          const Spacer(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
+          ),
           const Text(
             "Continue as",
             style: TextStyle(
@@ -137,6 +116,9 @@ class Screen3 extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
+          ),
+          const SizedBox(
+            height: 35,
           ),
         ],
       ),

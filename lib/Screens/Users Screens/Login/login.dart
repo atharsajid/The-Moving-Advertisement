@@ -26,27 +26,25 @@ class _UserLoginState extends State<UserLogin> {
             image: AssetImage('images/login.png'), fit: BoxFit.cover),
       ),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
-        body: Stack(children: [
-          Container(
-            padding: EdgeInsets.only(
-                left: 35, top: MediaQuery.of(context).size.height * 0.15),
-            child: const Text(
-              "Login as\nUser",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 43,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(
-                right: 35,
-                left: 35,
-                top: MediaQuery.of(context).size.height * 0.3),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 35),
+          child: SingleChildScrollView(
             child: Column(children: [
+              Container(
+                alignment: Alignment.topLeft,
+                width: double.infinity,
+                padding: EdgeInsets.only(
+                     top: MediaQuery.of(context).size.height * 0.16),
+                child: const Text(
+                  "Login as\nUser",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 43,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               Image.asset(
                 'images/tma.png',
                 height: 200,
@@ -125,16 +123,18 @@ class _UserLoginState extends State<UserLogin> {
                               onPressed: () async {
                                 if (emailcontroller.text.isNotEmpty &&
                                     passcontroller.text.isNotEmpty) {
-                                  bool result =
-                                      await InternetConnectionChecker()
-                                          .hasConnection;
+                                  bool result = await InternetConnectionChecker()
+                                      .hasConnection;
                                   if (result == true) {
                                     controller.signin(
                                         emailcontroller, passcontroller);
                                     controller.isLoad(true);
                                   } else {
-                                    Get.snackbar("Network Error",
-                                        "Please check your internet connection",snackPosition: SnackPosition.BOTTOM,);
+                                    Get.snackbar(
+                                      "Network Error",
+                                      "Please check your internet connection",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                    );
                                   }
                                 } else {
                                   Get.snackbar(
@@ -171,7 +171,7 @@ class _UserLoginState extends State<UserLogin> {
               ]),
             ]),
           ),
-        ]),
+        ),
       ),
     );
   }

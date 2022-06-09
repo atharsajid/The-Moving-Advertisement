@@ -26,27 +26,24 @@ class _DriverLoginState extends State<DriverLogin> {
             image: AssetImage('images/login.png'), fit: BoxFit.cover),
       ),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.transparent,
-        body: Stack(children: [
-          Container(
-            padding: EdgeInsets.only(
-                left: 35, top: MediaQuery.of(context).size.height * 0.15),
-            child: const Text(
-              "Login as\nDriver",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 43,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(
-                right: 35,
-                left: 35,
-                top: MediaQuery.of(context).size.height * 0.3),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 35),
             child: Column(children: [
+              Container(
+                alignment: Alignment.topLeft,
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.15, bottom: 20),
+                child: const Text(
+                  "Login as\nDriver",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 43,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               Image.asset(
                 'images/tma.png',
                 height: 200,
@@ -133,8 +130,11 @@ class _DriverLoginState extends State<DriverLogin> {
                                         emailcontroller, passcontroller);
                                     controller.isLoad(true);
                                   } else {
-                                    Get.snackbar("Network Error",
-                                        "Please check your internet connection",snackPosition: SnackPosition.BOTTOM,);
+                                    Get.snackbar(
+                                      "Network Error",
+                                      "Please check your internet connection",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                    );
                                   }
                                 } else {
                                   Get.snackbar(
@@ -171,7 +171,7 @@ class _DriverLoginState extends State<DriverLogin> {
               ]),
             ]),
           ),
-        ]),
+        ),
       ),
     );
   }

@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 List picList = [
   'images/pic/1.jpeg',
   'images/pic/2.jpg',
@@ -18,6 +16,6 @@ List picList = [
   'images/pic/15.jpg',
   'images/pic/16.jpg',
   'images/pic/17.jpg',
-
-
 ];
+String unLoadImage =
+    'https://icons.veryicon.com/png/o/education-technology/alibaba-cloud-iot-business-department/image-load-failed.png';

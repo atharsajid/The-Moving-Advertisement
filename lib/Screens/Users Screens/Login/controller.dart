@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:the_moving_advertisement/Screens/Shared%20Preferences/shared_preferences.dart';
 import '../Home Screen/home_screen.dart';
 
 String userEmail = '';
@@ -21,11 +20,12 @@ class UserLoginController extends GetxController {
           .signInWithEmailAndPassword(email: email.text, password: pass.text);
       userEmail = email.text;
       final prefs = await SharedPreferences.getInstance();
-      prefs.setString('userEmail', userEmail);
+      UserDriverPreferences.setUserEmail(userEmail);
       prefs.setBool('showHome', true);
+    
 
       isLoad(false);
-      Get.off(HomeScreen());
+      Get.off(const HomeScreen());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         isLoad(false);

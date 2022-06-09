@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../Shared Preferences/shared_preferences.dart';
 import '../Home Screen/home_screen.dart';
 
 String driverEmail = '';
@@ -19,7 +21,10 @@ class DriverLoginController extends GetxController {
       isLoad(false);
 
       driverEmail = email.text;
-      print(driverEmail);
+      final prefs = await SharedPreferences.getInstance();
+      UserDriverPreferences.setDriverEmail(driverEmail);
+      prefs.setBool('showHome', true);
+      prefs.setBool('isDriver', true);
       Get.off(const DriverHomeScreen());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

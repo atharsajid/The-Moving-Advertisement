@@ -20,35 +20,38 @@ class UserActiveAds extends StatelessWidget {
       appBar: AppBar(
         foregroundColor: Colors.black,
         leading: IconButton(
-            onPressed: () {
-              Get.to(HomeScreen());
-            },
-            icon: Icon(Icons.arrow_back_ios),),
-            title: Text('Active Ads'),
-          backgroundColor: Colors.transparent,
-elevation: 0,      ),
+          onPressed: () {
+            Get.to(const HomeScreen());
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+        title: const Text('Active Ads'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: activeAds,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text('Something went wrong');
+            return const Text('Something went wrong');
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           return ListView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
                 return Container(
-                  padding: EdgeInsets.only(left: 30),
+                  padding: const EdgeInsets.only(left: 30),
                   clipBehavior: Clip.antiAlias,
-                  margin: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   width: double.infinity,
                   height: 200,
                   decoration: BoxDecoration(
@@ -72,7 +75,7 @@ elevation: 0,      ),
                         children: [
                           Text(
                             data["title"],
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -80,7 +83,7 @@ elevation: 0,      ),
                           ),
                           Text(
                             data["location"],
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -88,7 +91,7 @@ elevation: 0,      ),
                           ),
                           Text(
                             data["duration"],
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -98,7 +101,7 @@ elevation: 0,      ),
                             width: 250,
                             child: Text(
                               data["description"],
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
                               ),
@@ -111,7 +114,7 @@ elevation: 0,      ),
                         alignment: Alignment.topRight,
                         child: Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(12),
                             ),
                             color: secondary,
@@ -119,26 +122,27 @@ elevation: 0,      ),
                           child: IconButton(
                             onPressed: () {
                               Get.dialog(AlertDialog(
-                                title: Text("Close"),
-                                content: Text("Are your sure to close this Ad"),
+                                title: const Text("Close"),
+                                content: const Text(
+                                    "Are your sure to close this Ad"),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
                                       Get.back();
                                     },
-                                    child: Text("Cancel"),
+                                    child: const Text("Cancel"),
                                   ),
                                   TextButton(
                                     onPressed: () {
                                       document.reference.delete();
                                       Get.back();
                                     },
-                                    child: Text("Confirm"),
+                                    child: const Text("Confirm"),
                                   ),
                                 ],
                               ));
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.close,
                               color: Colors.white,
                             ),

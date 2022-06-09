@@ -1,7 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Create%20Ads/create_ads.dart';
@@ -29,72 +27,73 @@ class Subscription extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      body: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        const SizedBox(
-          width: double.infinity,
-        ),
-        const Text(
-          "Choose Your Plan",
-          style: TextStyle(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          const SizedBox(
+            width: double.infinity,
           ),
-        ),
-        const Spacer(),
-        GetBuilder<SliderController>(builder: (controller) {
-          return CarouselSlider.builder(
-            itemCount: subsList.length,
-            itemBuilder: (context, index, realIndex) {
-              return buildMemes(index);
-            },
-            carouselController: controller.controller,
-            options: CarouselOptions(
-              height: MediaQuery.of(context).size.height * 0.7,
-              enlargeCenterPage: true,
-              enlargeStrategy: CenterPageEnlargeStrategy.height,
-              onPageChanged: (index, reason) {
-                controller.index(index);
+          const Text(
+            "Choose Your Plan",
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          GetBuilder<SliderController>(builder: (controller) {
+            return CarouselSlider.builder(
+              itemCount: subsList.length,
+              itemBuilder: (context, index, realIndex) {
+                return buildMemes(index);
               },
-            ),
-          );
-        }),
-        const SizedBox(
-          height: 10,
-        ),
-        GetBuilder<SliderController>(builder: (controller) {
-          return OutlinedButton(
-            onPressed: () {
-              controller.price(subsList[controller.activeIndex].price);
-              controller.indexSelected(controller.activeIndex);
-              Get.to(
-                CreateAds(
-                  tag: subsList[controller.selectedIndex].tag,
-                    index: controller.selectedIndex,
-                    price: controller.priceSelected,
-                    duration: subsList[controller.selectedIndex].duration),
-              );
-            },
-            style: OutlinedButton.styleFrom(
-                backgroundColor: primary,
-                primary: Colors.white,
-                minimumSize: const Size(150, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(32),
-                ),
-                side: BorderSide.none),
-            child: Text(
-              "Subscribe",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+              carouselController: controller.controller,
+              options: CarouselOptions(
+                height: 550,
+                enlargeCenterPage: true,
+                enlargeStrategy: CenterPageEnlargeStrategy.height,
+                onPageChanged: (index, reason) {
+                  controller.index(index);
+                },
               ),
-            ),
-          );
-        }),
-        const SizedBox(
-          height: 30,
-        ),
-      ]),
+            );
+          }),
+          const SizedBox(
+            height: 10,
+          ),
+          GetBuilder<SliderController>(builder: (controller) {
+            return OutlinedButton(
+              onPressed: () {
+                controller.price(subsList[controller.activeIndex].price);
+                controller.indexSelected(controller.activeIndex);
+                Get.to(
+                  CreateAds(
+                      tag: subsList[controller.selectedIndex].tag,
+                      index: controller.selectedIndex,
+                      price: controller.priceSelected,
+                      duration: subsList[controller.selectedIndex].duration),
+                );
+              },
+              style: OutlinedButton.styleFrom(
+                  backgroundColor: primary,
+                  primary: Colors.white,
+                  minimumSize: const Size(150, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32),
+                  ),
+                  side: BorderSide.none),
+              child: const Text(
+                "Subscribe",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
+          }),
+          const SizedBox(
+            height: 30,
+          ),
+        ]),
+      ),
     );
   }
 
@@ -140,7 +139,7 @@ class Subscription extends StatelessWidget {
                       color: secondary, borderRadius: BorderRadius.circular(5)),
                   child: Text(
                     subsList[index].tag,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -149,7 +148,7 @@ class Subscription extends StatelessWidget {
                 ),
                 Text(
                   subsList[index].duration,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -157,7 +156,7 @@ class Subscription extends StatelessWidget {
                 ),
                 Text(
                   "\$${subsList[index].price}",
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -166,11 +165,11 @@ class Subscription extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               top: 30,
               left: 20,
             ),
@@ -179,7 +178,7 @@ class Subscription extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 16,
                       backgroundColor: Colors.black,
                       child: Icon(
@@ -187,24 +186,24 @@ class Subscription extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                     Text(
                       subsList[index].radius,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                       ),
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 16,
                       backgroundColor: Colors.black,
                       child: Icon(
@@ -212,24 +211,24 @@ class Subscription extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                     Text(
                       subsList[index].location,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                       ),
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 16,
                       backgroundColor: Colors.black,
                       child: Icon(
@@ -237,24 +236,24 @@ class Subscription extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                     Text(
                       subsList[index].hours,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                       ),
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 16,
                       backgroundColor: Colors.black,
                       child: Icon(
@@ -262,24 +261,24 @@ class Subscription extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                     Text(
                       subsList[index].get,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                       ),
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 16,
                       backgroundColor: Colors.black,
                       child: Icon(
@@ -287,12 +286,12 @@ class Subscription extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 15,
                     ),
                     Text(
                       subsList[index].tracking,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                       ),
                     )

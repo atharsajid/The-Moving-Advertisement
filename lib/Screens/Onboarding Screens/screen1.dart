@@ -6,13 +6,13 @@ class Screen1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 150, bottom: 100),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-      ),
+    return SingleChildScrollView(
       child: Column(
         children: [
+          const SizedBox(
+            width: double.infinity,
+            height: 150,
+          ),
           Image.asset(
             'images/s2.png',
             width: MediaQuery.of(context).size.width * 0.7,
@@ -39,7 +39,9 @@ class Screen1 extends StatelessWidget {
                 fontSize: 22,
                 letterSpacing: 2),
           ),
-          const Spacer(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.15,
+          ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 30),
             child: Text(
@@ -52,7 +54,7 @@ class Screen1 extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 5,
+            height: 35,
           ),
         ],
       ),

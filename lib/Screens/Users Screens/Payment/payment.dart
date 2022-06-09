@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:the_moving_advertisement/Screens/Users%20Screens/Payment/payment_controller.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({Key? key}) : super(key: key);
@@ -14,25 +12,23 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-
-
   Map<String, dynamic>? paymentIntentData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stripe Tutorial'),
+        title: const Text('Stripe Tutorial'),
       ),
       body: Center(
         child: InkWell(
           onTap: () async {
-          await makePayment();
+            await makePayment();
           },
           child: Container(
             height: 50,
             width: 200,
             color: Colors.green,
-            child: Center(
+            child: const Center(
               child: Text(
                 'Pay',
                 style: TextStyle(color: Colors.white, fontSize: 20),
@@ -78,14 +74,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
         confirmPayment: true,
       ))
           .then((newValue) {
-        print('payment intent' + paymentIntentData!['id'].toString());
-        print(
-            'payment intent' + paymentIntentData!['client_secret'].toString());
-        print('payment intent' + paymentIntentData!['amount'].toString());
-        print('payment intent' + paymentIntentData.toString());
+        print('payment intent${paymentIntentData!['id']}');
+        print('payment intent${paymentIntentData!['client_secret']}');
+        print('payment intent${paymentIntentData!['amount']}');
+        print('payment intent$paymentIntentData');
         //orderPlaceApi(paymentIntentData!['id'].toString());
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("paid successfully")));
+            .showSnackBar(const SnackBar(content: Text("paid successfully")));
 
         paymentIntentData = null;
       }).onError((error, stackTrace) {
@@ -95,7 +90,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       print('Exception/DISPLAYPAYMENTSHEET==> $e');
       showDialog(
           context: context,
-          builder: (_) => AlertDialog(
+          builder: (_) => const AlertDialog(
                 content: Text("Cancelled "),
               ));
     } catch (e) {

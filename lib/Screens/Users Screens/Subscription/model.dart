@@ -1,15 +1,13 @@
-import 'package:flutter/material.dart';
-
 class Subs {
-  final tag;
-  final duration;
+  final String tag;
+  final String duration;
   final int price;
-  final location;
-  final radius;
-  final crowd;
-  final hours;
-  final get;
-  final tracking;
+  final String location;
+  final String radius;
+  final String crowd;
+  final String hours;
+  final String get;
+  final String tracking;
   Subs({
     required this.tag,
     required this.duration,
@@ -34,7 +32,7 @@ List<Subs> subsList = [
       hours: 'Upto 3000 hours active time',
       get: 'Get Functions & statisticcs',
       tracking: 'Live Tracking'),
-        Subs(
+  Subs(
       tag: 'Affordable',
       duration: 'Monthly',
       price: 19,
@@ -44,7 +42,7 @@ List<Subs> subsList = [
       hours: 'Upto 250 hours active time',
       get: 'Get Functions & statisticcs',
       tracking: 'Live Tracking'),
-        Subs(
+  Subs(
       tag: 'Trial',
       duration: 'Weekly',
       price: 1,

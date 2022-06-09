@@ -9,18 +9,18 @@ class UserProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-dynamic  user = FirebaseFirestore.instance
-          .collection("User")
-          .doc(userEmail)
-          .collection("Profile")
-          .snapshots();
+    dynamic user = FirebaseFirestore.instance
+        .collection("User")
+        .doc(userEmail)
+        .collection("Profile")
+        .snapshots();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Get.to(HomeScreen());
+            Get.to(const HomeScreen());
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
           ),
         ),
@@ -32,16 +32,16 @@ dynamic  user = FirebaseFirestore.instance
         stream: user,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
-            return Text('Something went wrong');
+            return const Text('Something went wrong');
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           return ListView(
               reverse: true,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -51,7 +51,7 @@ dynamic  user = FirebaseFirestore.instance
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: double.infinity,
                     ),
                     CircleAvatar(
@@ -60,35 +60,33 @@ dynamic  user = FirebaseFirestore.instance
                         data["Image"],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
                     Text(
                       data["Name"],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       data["Email"],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 24,
                       ),
                     ),
                     Text(
                       data["PhoneNo"],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 24,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 200,
                     ),
                   ],
                 );
-
-               
               }).toList());
         },
       ),
