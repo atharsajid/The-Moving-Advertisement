@@ -1,9 +1,9 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'package:get/get.dart';
-import 'package:the_moving_advertisement/Constant/pic_list.dart';
 
 class UserRegController extends GetxController {
   bool isLoading = false;
@@ -17,18 +17,21 @@ class UserRegController extends GetxController {
     TextEditingController password,
     TextEditingController name,
     TextEditingController phone,
+    String image,
   ) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: email.text, password: password.text);
-      user(email.text, name.text, phone.text,picList[0]);
+      user(email.text, name.text, phone.text, image);
+      shareActive(email.text, false);
       isLoad(false);
       Get.snackbar(
         'Account Created',
         "Your account created successfully",
         snackPosition: SnackPosition.BOTTOM,
       );
+      isSelect(false, null);
 
       name.clear();
       email.clear();
@@ -65,19 +68,68 @@ class UserRegController extends GetxController {
     String phone,
     String image,
   ) async {
-    await FirebaseFirestore.instance.collection("User").doc(email).collection("Profile").add({
+    await FirebaseFirestore.instance
+        .collection("User")
+        .doc(email)
+        .collection("Profile")
+        .add({
       "Name": name,
       "Email": email,
       "PhoneNo": phone,
-      "Image":image,
+      "Image": image,
     });
   }
-    driverLoation(
-      String email,
-    bool isActive
-  ) async {
-    await FirebaseFirestore.instance.collection("User").doc(email).collection("DriverLocation").doc('Location').set({
-    'IsActive':isActive
+
+  driverLoation(String email, bool isActive) async {
+    await FirebaseFirestore.instance
+        .collection("User")
+        .doc(email)
+        .collection("IsActive")
+        .doc('IsActive')
+        .set({'IsActive': isActive});
+  }
+
+  var results;
+  String downloadurl = '';
+  bool isSelected = false;
+  String filename = '';
+  dynamic path;
+  final FirebaseStorage storage = FirebaseStorage.instance;
+  Future<void> uploadfile(String filepath, String filename) async {
+    File file = File(filepath);
+    try {
+      await storage.ref("UserImage/$filename").putFile(file);
+    } on FirebaseException catch (e) {
+      print(e);
+    }
+  }
+
+  downloadURL(String filename) async {
+    String downloadURL =
+        await storage.ref('UserImage/$filename').getDownloadURL();
+    downloadurl = downloadURL;
+    print(downloadURL);
+  }
+
+  resultUpdate(results) {
+    results = results;
+    update();
+  }
+
+  isSelect(isSelect, dynamic pathname) {
+    isSelected = isSelect;
+    path = pathname;
+    update();
+  }
+
+  shareActive(String email, bool isActive) async {
+    await FirebaseFirestore.instance
+        .collection("User")
+        .doc(email)
+        .collection("IsActive")
+        .doc('IsActive')
+        .set({
+      'IsActive': isActive,
     });
   }
 }

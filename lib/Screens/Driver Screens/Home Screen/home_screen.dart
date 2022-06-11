@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/About/about.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Active%20Ads/active_ads.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Ads%20Campaign/ads_campaign.dart';
@@ -28,6 +30,14 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () {
+                Get.to(DriverProfile());
+              },
+              icon: Icon(Icons.person),
+            ),
+          ],
           title: const Text("Driver's Dashboard"),
           foregroundColor: Colors.black,
           backgroundColor: Colors.transparent,
@@ -105,10 +115,26 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundImage: AssetImage(data["Image"]),
-                      ),
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: CachedNetworkImage(
+                            imageUrl: data["Image"],
+                            maxHeightDiskCache: 120,
+                            height: 120,
+                            width: 120,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              color: Colors.grey,
+                              child: Icon(
+                                Icons.error,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ),
                       const SizedBox(
                         height: 15,
                       ),
@@ -174,7 +200,10 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
                         height: 100,
                       ),
                       TextButton.icon(
-                        onPressed: () {
+                        onPressed: () async{
+                       final prefs = await SharedPreferences.getInstance();
+                          prefs.setBool('showHome', false);
+                          prefs.setBool('isDriver', false);
                           Get.off(const SplashScreen());
                         },
                         icon: Icon(

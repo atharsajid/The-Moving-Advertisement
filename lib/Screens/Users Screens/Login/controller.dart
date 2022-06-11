@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:the_moving_advertisement/Screens/Shared%20Preferences/shared_preferences.dart';
+import 'package:the_moving_advertisement/Screens/Users%20Screens/Active%20Ads/active_ads.dart';
 import '../Home Screen/home_screen.dart';
 
 String userEmail = '';
@@ -22,7 +23,7 @@ class UserLoginController extends GetxController {
       final prefs = await SharedPreferences.getInstance();
       UserDriverPreferences.setUserEmail(userEmail);
       prefs.setBool('showHome', true);
-    
+      driverAdEmail = email.text;
 
       isLoad(false);
       Get.off(const HomeScreen());

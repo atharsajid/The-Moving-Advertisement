@@ -8,6 +8,7 @@ class Subs {
   final String hours;
   final String get;
   final String tracking;
+ bool isSubscribed;
   Subs({
     required this.tag,
     required this.duration,
@@ -18,6 +19,7 @@ class Subs {
     required this.hours,
     required this.get,
     required this.tracking,
+    required this.isSubscribed,
   });
 }
 
@@ -31,7 +33,8 @@ List<Subs> subsList = [
       crowd: 'Highly crowded Areas',
       hours: 'Upto 3000 hours active time',
       get: 'Get Functions & statisticcs',
-      tracking: 'Live Tracking'),
+      tracking: 'Live Tracking',
+      isSubscribed: false),
   Subs(
       tag: 'Affordable',
       duration: 'Monthly',
@@ -41,7 +44,8 @@ List<Subs> subsList = [
       crowd: 'Crowded Areas',
       hours: 'Upto 250 hours active time',
       get: 'Get Functions & statisticcs',
-      tracking: 'Live Tracking'),
+      tracking: 'Live Tracking',
+      isSubscribed: false),
   Subs(
       tag: 'Trial',
       duration: 'Weekly',
@@ -51,5 +55,6 @@ List<Subs> subsList = [
       crowd: 'Limited Audience',
       hours: 'Upto 40 hours active time',
       get: 'Get statisticcs',
-      tracking: 'Live Tracking'),
+      tracking: 'Live Tracking',
+      isSubscribed: false,),
 ];

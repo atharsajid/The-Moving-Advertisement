@@ -1,10 +1,11 @@
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
-import 'package:the_moving_advertisement/Constant/pic_list.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Registration/controller.dart';
-import 'package:the_moving_advertisement/Screens/Users%20Screens/Registration/car_list.dart';
+import 'package:the_moving_advertisement/Screens/Driver%20Screens/Registration/registration_page2.dart';
 import '../Login/login.dart';
 
 class DriverRegistration extends StatefulWidget {
@@ -42,14 +43,88 @@ class _DriverRegistrationState extends State<DriverRegistration> {
               Container(
                 alignment: Alignment.topLeft,
                 padding: EdgeInsets.only(
-                  bottom: 50,
-                    top: MediaQuery.of(context).size.height * 0.06),
-                child: const Text(
-                  "Create\nDriver\nAccount",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 43,
-                      fontWeight: FontWeight.bold),
+                    bottom: 50, top: MediaQuery.of(context).size.height * 0.06),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Create\nDriver\nAccount",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 43,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    GetBuilder<DriverRegController>(builder: (controller) {
+                      return Column(
+                        children: [
+                          Container(
+                            clipBehavior: Clip.antiAlias,
+                            height: 120,
+                            width: 90,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('images/gallery.png'),
+                              ),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Stack(
+                              children: [
+                                controller.isSelected
+                                    ? Align(
+                                        alignment: Alignment.center,
+                                        child: Image.file(
+                                          File(controller.path),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                                    : SizedBox(),
+                              ],
+                            ),
+                          ),
+                          OutlinedButton(
+                            onPressed: () async {
+                              controller.results =
+                                  await FilePicker.platform.pickFiles(
+                                type: FileType.custom,
+                                allowedExtensions: ["jpg", "png", "jpeg"],
+                              );
+                              controller.resultUpdate(controller.results);
+
+                              if (controller.results == null) {
+                                Get.snackbar('No File Selected',
+                                    'Kindly select your Ads Image');
+                              }
+                              final pathname =
+                                  controller.results.files.single.path;
+                              controller.filename =
+                                  controller.results.files.single.name;
+                              controller
+                                  .uploadfile(pathname, controller.filename)
+                                  .then(
+                                    (value) => controller
+                                        .downloadURL(controller.filename),
+                                  );
+                              if (controller.results != null) {
+                                controller.isSelect(true, pathname);
+                              }
+                            },
+                            style: OutlinedButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: secondary,
+                              side: BorderSide.none,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                            child: Text(
+                              "Upload Image",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+                  ],
                 ),
               ),
               TextField(
@@ -155,7 +230,7 @@ class _DriverRegistrationState extends State<DriverRegistration> {
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 const Text(
-                  'Sign Up',
+                  'Next',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 27,
@@ -178,19 +253,25 @@ class _DriverRegistrationState extends State<DriverRegistration> {
                                   phonecontroller.text.isNotEmpty &&
                                   passcontroller.text.isNotEmpty) {
                                 if (phonecontroller.text.length == 11) {
-                                  bool result = await InternetConnectionChecker()
-                                      .hasConnection;
+                                  bool result =
+                                      await InternetConnectionChecker()
+                                          .hasConnection;
                                   if (result == true) {
-                                    controller.registration(
-                                      emailcontroller,
-                                      passcontroller,
-                                      namecontroller,
-                                      phonecontroller,
-                                      carList[0].image,
-                                      carList[0].name,
-                                      picList[0],
-                                    );
-                                    controller.isLoad(true);
+                                    if (controller.results != null) {
+                                      Get.to(
+                                        CarRegistration(
+                                            namecontroller: namecontroller,
+                                            emailcontroller: emailcontroller,
+                                            phonecontroller: phonecontroller,
+                                            passcontroller: passcontroller),
+                                      );
+                                    } else {
+                                      Get.snackbar(
+                                        "Required",
+                                        "Kingly upload your profile pic",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                      );
+                                    }
                                   } else {
                                     Get.snackbar(
                                       "Network Error",

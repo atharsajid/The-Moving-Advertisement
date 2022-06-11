@@ -24,6 +24,8 @@ class AdsController extends GetxController {
         .collection("User")
         .doc(userEmail)
         .collection("ActiveAds")
+        .doc(driverEmail)
+        .collection('ActiveAds')
         .add({
       "title": title,
       "location": location,

@@ -10,6 +10,7 @@ import 'package:the_moving_advertisement/Screens/Users%20Screens/Home%20Screen/h
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Login/controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Splash%20Screen/ads_created.dart';
+import 'package:the_moving_advertisement/Screens/Users%20Screens/Subscription/model.dart';
 
 class CreateAds extends StatefulWidget {
   int index;
@@ -368,7 +369,7 @@ class _CreateAdsState extends State<CreateAds> {
         clientSecret: paymentIntentData!['client_secret'],
         confirmPayment: true,
       ))
-          .then((newValue) {
+          .then((newValue) async {
         print('payment intent${paymentIntentData!['id']}');
         print('payment intent${paymentIntentData!['client_secret']}');
         print('payment intent${paymentIntentData!['amount']}');
@@ -392,9 +393,11 @@ class _CreateAdsState extends State<CreateAds> {
           widget.duration,
           userEmail,
         );
+        subsList[widget.index].isSubscribed = true;
         titleController.clear();
         locationController.clear();
         descriptionController.clear();
+
         storage.isSelect(false, null);
         Get.to(AdsCreated());
         Get.snackbar(

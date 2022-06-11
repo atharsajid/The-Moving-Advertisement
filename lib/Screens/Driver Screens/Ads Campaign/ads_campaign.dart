@@ -1,7 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:the_moving_advertisement/Constant/pic_list.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Ads%20Campaign/controller.dart';
 import 'package:the_moving_advertisement/Screens/Driver%20Screens/Login/controller.dart';
 import '../../../Constant/colors.dart';
@@ -35,27 +35,37 @@ class AdsCampaign extends StatelessWidget {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
                 return Container(
-                  padding: const EdgeInsets.only(left: 30),
                   clipBehavior: Clip.antiAlias,
                   margin:
                       const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                   width: double.infinity,
                   height: 200,
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(data["image"] ?? unLoadImage),
-                      fit: BoxFit.cover,
-                      colorFilter: ColorFilter.mode(
-                        Colors.black.withOpacity(0.4),
-                        BlendMode.darken,
-                      ),
-                    ),
                     color: primary,
                     boxShadow: shadow,
                     borderRadius: BorderRadius.circular(32),
                   ),
                   child: Stack(
                     children: [
+                      ClipRRect(
+                        child: CachedNetworkImage(
+                          imageUrl: data["image"],
+                          maxHeightDiskCache: 200,
+                          height: double.infinity,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            color: Colors.grey,
+                            child: Icon(
+                              Icons.error,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,

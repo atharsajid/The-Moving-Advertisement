@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Create%20Ads/create_ads.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Subscription/controller.dart';
@@ -60,34 +61,54 @@ class Subscription extends StatelessWidget {
             height: 10,
           ),
           GetBuilder<SliderController>(builder: (controller) {
-            return OutlinedButton(
-              onPressed: () {
-                controller.price(subsList[controller.activeIndex].price);
-                controller.indexSelected(controller.activeIndex);
-                Get.to(
-                  CreateAds(
-                      tag: subsList[controller.selectedIndex].tag,
-                      index: controller.selectedIndex,
-                      price: controller.priceSelected,
-                      duration: subsList[controller.selectedIndex].duration),
-                );
-              },
-              style: OutlinedButton.styleFrom(
-                  backgroundColor: primary,
-                  primary: Colors.white,
-                  minimumSize: const Size(150, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32),
-                  ),
-                  side: BorderSide.none),
-              child: const Text(
-                "Subscribe",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            );
+            return subsList[controller.activeIndex].isSubscribed
+                ? OutlinedButton(
+                    onPressed: () {},
+                    style: OutlinedButton.styleFrom(
+                        backgroundColor: secondary,
+                        primary: Colors.white,
+                        minimumSize: const Size(150, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(32),
+                        ),
+                        side: BorderSide.none),
+                    child: const Text(
+                      "Subscribed",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                : OutlinedButton(
+                    onPressed: () {
+                      controller.price(subsList[controller.activeIndex].price);
+                      controller.indexSelected(controller.activeIndex);
+                      Get.to(
+                        CreateAds(
+                            tag: subsList[controller.selectedIndex].tag,
+                            index: controller.selectedIndex,
+                            price: controller.priceSelected,
+                            duration:
+                                subsList[controller.selectedIndex].duration),
+                      );
+                    },
+                    style: OutlinedButton.styleFrom(
+                        backgroundColor: primary,
+                        primary: Colors.white,
+                        minimumSize: const Size(150, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(32),
+                        ),
+                        side: BorderSide.none),
+                    child: const Text(
+                      "Subscribe",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
           }),
           const SizedBox(
             height: 30,
@@ -148,15 +169,12 @@ class Subscription extends StatelessWidget {
                 ),
                 Text(
                   subsList[index].duration,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: GoogleFonts.pacifico(
+                      textStyle: TextStyle(color: Colors.white, fontSize: 32)),
                 ),
                 Text(
                   "\$${subsList[index].price}",
-                  style: const TextStyle(
+                  style: GoogleFonts.raleway(
                     color: Colors.white,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -171,7 +189,7 @@ class Subscription extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(
               top: 30,
-              left: 20,
+              left: 15,
             ),
             child: Column(
               children: [
@@ -189,10 +207,12 @@ class Subscription extends StatelessWidget {
                     const SizedBox(
                       width: 15,
                     ),
-                    Text(
-                      subsList[index].radius,
-                      style: const TextStyle(
-                        fontSize: 18,
+                    Expanded(
+                      child: Text(
+                        subsList[index].radius,
+                        style: GoogleFonts.merriweather(
+                          fontSize: 18,
+                        ),
                       ),
                     )
                   ],
@@ -214,10 +234,12 @@ class Subscription extends StatelessWidget {
                     const SizedBox(
                       width: 15,
                     ),
-                    Text(
-                      subsList[index].location,
-                      style: const TextStyle(
-                        fontSize: 18,
+                    Expanded(
+                      child: Text(
+                        subsList[index].location,
+                        style: GoogleFonts.merriweather(
+                          fontSize: 18,
+                        ),
                       ),
                     )
                   ],
@@ -239,10 +261,12 @@ class Subscription extends StatelessWidget {
                     const SizedBox(
                       width: 15,
                     ),
-                    Text(
-                      subsList[index].hours,
-                      style: const TextStyle(
-                        fontSize: 18,
+                    Expanded(
+                      child: Text(
+                        subsList[index].hours,
+                        style: GoogleFonts.merriweather(
+                          fontSize: 18,
+                        ),
                       ),
                     )
                   ],
@@ -264,10 +288,12 @@ class Subscription extends StatelessWidget {
                     const SizedBox(
                       width: 15,
                     ),
-                    Text(
-                      subsList[index].get,
-                      style: const TextStyle(
-                        fontSize: 18,
+                    Expanded(
+                      child: Text(
+                        subsList[index].get,
+                        style: GoogleFonts.merriweather(
+                          fontSize: 18,
+                        ),
                       ),
                     )
                   ],
@@ -289,10 +315,12 @@ class Subscription extends StatelessWidget {
                     const SizedBox(
                       width: 15,
                     ),
-                    Text(
-                      subsList[index].tracking,
-                      style: const TextStyle(
-                        fontSize: 18,
+                    Expanded(
+                      child: Text(
+                        subsList[index].tracking,
+                        style: GoogleFonts.merriweather(
+                          fontSize: 18,
+                        ),
                       ),
                     )
                   ],
