@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Subscription/controller.dart';
 import 'package:the_moving_advertisement/Screens/Users%20Screens/Subscription/model.dart';
@@ -148,15 +149,12 @@ Widget buildSubscription(int index, BuildContext context) {
               ),
               Text(
                 subsList[index].duration,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: GoogleFonts.pacifico(
+                    textStyle: TextStyle(color: Colors.white, fontSize: 32)),
               ),
               Text(
                 "\$${subsList[index].price}",
-                style: const TextStyle(
+                style: GoogleFonts.raleway(
                   color: Colors.white,
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -171,7 +169,7 @@ Widget buildSubscription(int index, BuildContext context) {
         Padding(
           padding: const EdgeInsets.only(
             top: 30,
-            left: 20,
+            left: 15,
           ),
           child: Column(
             children: [
@@ -189,10 +187,12 @@ Widget buildSubscription(int index, BuildContext context) {
                   const SizedBox(
                     width: 15,
                   ),
-                  Text(
-                    subsList[index].radius,
-                    style: const TextStyle(
-                      fontSize: 18,
+                  Expanded(
+                    child: Text(
+                      subsList[index].radius,
+                      style: GoogleFonts.merriweather(
+                        fontSize: 18,
+                      ),
                     ),
                   )
                 ],
@@ -214,10 +214,12 @@ Widget buildSubscription(int index, BuildContext context) {
                   const SizedBox(
                     width: 15,
                   ),
-                  Text(
-                    subsList[index].location,
-                    style: const TextStyle(
-                      fontSize: 18,
+                  Expanded(
+                    child: Text(
+                      subsList[index].location,
+                      style: GoogleFonts.merriweather(
+                        fontSize: 18,
+                      ),
                     ),
                   )
                 ],
@@ -239,10 +241,12 @@ Widget buildSubscription(int index, BuildContext context) {
                   const SizedBox(
                     width: 15,
                   ),
-                  Text(
-                    subsList[index].hours,
-                    style: const TextStyle(
-                      fontSize: 18,
+                  Expanded(
+                    child: Text(
+                      subsList[index].hours,
+                      style: GoogleFonts.merriweather(
+                        fontSize: 18,
+                      ),
                     ),
                   )
                 ],
@@ -264,10 +268,12 @@ Widget buildSubscription(int index, BuildContext context) {
                   const SizedBox(
                     width: 15,
                   ),
-                  Text(
-                    subsList[index].get,
-                    style: const TextStyle(
-                      fontSize: 18,
+                  Expanded(
+                    child: Text(
+                      subsList[index].get,
+                      style: GoogleFonts.merriweather(
+                        fontSize: 18,
+                      ),
                     ),
                   )
                 ],
@@ -289,12 +295,14 @@ Widget buildSubscription(int index, BuildContext context) {
                   const SizedBox(
                     width: 15,
                   ),
-                  Text(
-                    subsList[index].tracking,
-                    style: const TextStyle(
-                      fontSize: 18,
+                  Expanded(
+                    child: Text(
+                      subsList[index].tracking,
+                      style: GoogleFonts.merriweather(
+                        fontSize: 18,
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ],

@@ -322,7 +322,7 @@ class Subscription extends StatelessWidget {
                           fontSize: 18,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
