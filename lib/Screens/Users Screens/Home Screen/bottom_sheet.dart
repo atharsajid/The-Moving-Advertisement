@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:the_moving_advertisement/Constant/colors.dart';
+import 'package:the_moving_advertisement/Screens/Users%20Screens/Home%20Screen/timer.dart';
 
 class Bottomsheet extends StatelessWidget {
   const Bottomsheet({
@@ -68,6 +69,14 @@ class Bottomsheet extends StatelessWidget {
                         "Driver",
                         style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      buildtime(
+                        Duration(
+                          seconds: data['DurationTime'],
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -79,6 +88,35 @@ class Bottomsheet extends StatelessWidget {
               ),
               SizedBox(
                 height: 20,
+              ),
+              Text(
+                "Distance Covered:",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22),
+              ),
+              Row(
+                children: [
+                  Icon(
+                    Icons.location_on_rounded,
+                    color: primary,
+                  ),
+                  Text(
+                    "${data['Distance'].toStringAsFixed(2) ?? 0.0}KM",
+                    style: const TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+              Divider(
+                color: Colors.grey,
+                indent: 20,
+                endIndent: 20,
+              ),
+              SizedBox(
+                height: 15,
               ),
               Text(
                 "Email:",

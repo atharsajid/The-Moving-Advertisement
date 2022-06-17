@@ -257,31 +257,39 @@ class _UserRegistrationState extends State<UserRegistration> {
                                   passcontroller.text.isNotEmpty) {
                                 if (phonecontroller.text.length == 11) {
                                   if (controller.results != null) {
-                                    bool result =
-                                        await InternetConnectionChecker()
-                                            .hasConnection;
-                                    if (result == true) {
-                                      controller.registration(
-                                        emailcontroller,
-                                        passcontroller,
-                                        namecontroller,
-                                        phonecontroller,
-                                        controller.downloadurl,
-                                      );
-                                      controller.driverLoation(
-                                          emailcontroller.text, false);
-                                      controller.isLoad(true);
+                                    if (controller.downloadurl.length > 5) {
+                                      bool result =
+                                          await InternetConnectionChecker()
+                                              .hasConnection;
+                                      if (result == true) {
+                                        controller.registration(
+                                          emailcontroller,
+                                          passcontroller,
+                                          namecontroller,
+                                          phonecontroller,
+                                          controller.downloadurl,
+                                        );
+                                        controller.driverLoation(
+                                            emailcontroller.text, false);
+                                        controller.isLoad(true);
+                                      } else {
+                                        Get.snackbar(
+                                          "Network Error",
+                                          "Please check your internet connection.",
+                                          snackPosition: SnackPosition.BOTTOM,
+                                        );
+                                      }
                                     } else {
-                                      Get.snackbar("Image Required",
-                                          "Kingly upload your profile pic",
-                                          snackPosition: SnackPosition.BOTTOM);
+                                      Get.snackbar(
+                                        "Upload Error",
+                                        "Your Profile pic is not uploaded please try again.",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                      );
                                     }
                                   } else {
-                                    Get.snackbar(
-                                      "Network Error",
-                                      "Please check your internet connection",
-                                      snackPosition: SnackPosition.BOTTOM,
-                                    );
+                                    Get.snackbar("Image Required",
+                                        "Kindly upload your profile pic",
+                                        snackPosition: SnackPosition.BOTTOM);
                                   }
                                 } else {
                                   Get.snackbar(

@@ -247,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     );
                                                   },
                                                   child: Text(
-                                                    'Driver Details',
+                                                    'Get Details',
                                                     style: TextStyle(
                                                       color: secondary,
                                                       fontSize: 18,

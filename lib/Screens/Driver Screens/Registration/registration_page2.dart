@@ -188,24 +188,32 @@ class _CarRegistrationState extends State<CarRegistration> {
                             onPressed: () async {
                               if (carcontroller.text.isNotEmpty) {
                                 if (controller.carResult != null) {
-                                  bool result =
-                                      await InternetConnectionChecker()
-                                          .hasConnection;
-                                  if (result == true) {
-                                    controller.registration(
-                                      widget.emailcontroller,
-                                      widget.passcontroller,
-                                      widget.namecontroller,
-                                      widget.phonecontroller,
-                                      controller.carUrl,
-                                      carcontroller.text,
-                                      controller.downloadurl,
-                                    );
-                                    controller.isLoad(true);
+                                  if (controller.carUrl.length > 5) {
+                                    bool result =
+                                        await InternetConnectionChecker()
+                                            .hasConnection;
+                                    if (result == true) {
+                                      controller.registration(
+                                        widget.emailcontroller,
+                                        widget.passcontroller,
+                                        widget.namecontroller,
+                                        widget.phonecontroller,
+                                        controller.carUrl,
+                                        carcontroller.text,
+                                        controller.downloadurl,
+                                      );
+                                      controller.isLoad(true);
+                                    } else {
+                                      Get.snackbar(
+                                        "Network Error",
+                                        "Please check your internet connection",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                      );
+                                    }
                                   } else {
                                     Get.snackbar(
-                                      "Network Error",
-                                      "Please check your internet connection",
+                                      "Upload Error",
+                                      "Your Car pic is not uploaded please try again.",
                                       snackPosition: SnackPosition.BOTTOM,
                                     );
                                   }

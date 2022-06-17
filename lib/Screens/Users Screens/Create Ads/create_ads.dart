@@ -285,7 +285,7 @@ class _CreateAdsState extends State<CreateAds> {
                     side: BorderSide(color: primary),
                   ),
                   child: const Text(
-                    "Cancle",
+                    "Cancel",
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,

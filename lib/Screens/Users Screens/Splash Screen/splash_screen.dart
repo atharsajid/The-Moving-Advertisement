@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +27,8 @@ class _SplashState extends State<Splash> {
     Timer(const Duration(seconds: 3),
         () => Get.to(isDriver ? DriverHomeScreen() : HomeScreen()));
   }
+
+
 
   userSP() async {
     final sharePreferences = await SharedPreferences.getInstance();

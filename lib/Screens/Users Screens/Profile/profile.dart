@@ -22,30 +22,29 @@ class UserProfile extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () async {
-              final prefs = await SharedPreferences.getInstance();
-              prefs.setBool('showHome', false);
-              prefs.setBool('isDriver', false);
-              Get.off(const SplashScreen());
+          actions: [
+            IconButton(
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                prefs.setBool('showHome', false);
+                prefs.setBool('isDriver', false);
+                Get.off(const SplashScreen());
+              },
+              icon: Icon(Icons.logout_outlined),
+            ),
+          ],
+          leading: IconButton(
+            onPressed: () {
+              Get.to(const HomeScreen());
             },
-            icon: Icon(Icons.logout_outlined),
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
           ),
-        ],
-        leading: IconButton(
-          onPressed: () {
-            Get.to(const HomeScreen());
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        foregroundColor: Colors.black,
-      ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          foregroundColor: Colors.white),
       body: Stack(
         children: [
           Container(
@@ -139,10 +138,12 @@ class UserProfile extends StatelessWidget {
                                   SizedBox(
                                     width: 20,
                                   ),
-                                  Text(
-                                    data["Email"],
-                                    style: const TextStyle(
-                                      fontSize: 24,
+                                  Flexible(
+                                    child: Text(
+                                      data["Email"],
+                                      style: const TextStyle(
+                                        fontSize: 24,
+                                      ),
                                     ),
                                   ),
                                 ],

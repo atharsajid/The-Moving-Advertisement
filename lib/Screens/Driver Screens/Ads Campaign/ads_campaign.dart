@@ -66,46 +66,53 @@ class AdsCampaign extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            data["title"],
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            data["location"],
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            data["duration"],
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 250,
-                            child: Text(
-                              data["description"],
+                      Container(
+                        padding: EdgeInsets.only(left: 20),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.2)
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              data["title"],
                               style: const TextStyle(
-                                fontSize: 16,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
-                              textAlign: TextAlign.justify,
                             ),
-                          ),
-                        ],
+                            Text(
+                              data["location"],
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              data["duration"],
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 250,
+                              child: Text(
+                                data["description"],
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.justify,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       Align(
                         alignment: Alignment.topRight,

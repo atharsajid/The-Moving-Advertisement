@@ -46,11 +46,11 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
             Column(
               children: const [
                 Icon(
-                  Icons.ad_units,
+                  Icons.amp_stories,
                   color: Colors.black,
                 ),
                 Text(
-                  'Ads Campaign',
+                  'Active Ads',
                   style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
               ],
@@ -58,11 +58,11 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
             Column(
               children: const [
                 Icon(
-                  Icons.amp_stories,
+                  Icons.ad_units,
                   color: Colors.black,
                 ),
                 Text(
-                  'Active Ads',
+                  'Ads Campaign',
                   style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
               ],
@@ -83,8 +83,8 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
         ),
         drawer: driverdrawer(),
         body: const TabBarView(children: [
-          AdsCampaign(),
           ActiveAds(),
+          AdsCampaign(),
           PastAds(),
         ]),
       ));
@@ -116,25 +116,25 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: CachedNetworkImage(
-                            imageUrl: data["Image"],
-                            maxHeightDiskCache: 120,
-                            height: 120,
-                            width: 120,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                            errorWidget: (context, url, error) => Container(
-                              color: Colors.grey,
-                              child: Icon(
-                                Icons.error,
-                                color: Colors.red,
-                              ),
+                        borderRadius: BorderRadius.circular(100),
+                        child: CachedNetworkImage(
+                          imageUrl: data["Image"],
+                          maxHeightDiskCache: 120,
+                          height: 120,
+                          width: 120,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            color: Colors.grey,
+                            child: Icon(
+                              Icons.error,
+                              color: Colors.red,
                             ),
                           ),
                         ),
+                      ),
                       const SizedBox(
                         height: 15,
                       ),
@@ -200,8 +200,8 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
                         height: 100,
                       ),
                       TextButton.icon(
-                        onPressed: () async{
-                       final prefs = await SharedPreferences.getInstance();
+                        onPressed: () async {
+                          final prefs = await SharedPreferences.getInstance();
                           prefs.setBool('showHome', false);
                           prefs.setBool('isDriver', false);
                           Get.off(const SplashScreen());

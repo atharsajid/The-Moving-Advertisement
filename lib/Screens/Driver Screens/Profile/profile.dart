@@ -141,10 +141,12 @@ class DriverProfile extends StatelessWidget {
                                     SizedBox(
                                       width: 20,
                                     ),
-                                    Text(
-                                      data["Email"],
-                                      style: const TextStyle(
-                                        fontSize: 24,
+                                    Flexible(
+                                      child: Text(
+                                        data["Email"],
+                                        style: const TextStyle(
+                                          fontSize: 24,
+                                        ),
                                       ),
                                     ),
                                   ],

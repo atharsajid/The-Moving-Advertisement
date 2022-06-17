@@ -258,17 +258,25 @@ class _DriverRegistrationState extends State<DriverRegistration> {
                                           .hasConnection;
                                   if (result == true) {
                                     if (controller.results != null) {
-                                      Get.to(
+                                     if (controller.downloadurl.length>5) {
+                                        Get.to(
                                         CarRegistration(
                                             namecontroller: namecontroller,
                                             emailcontroller: emailcontroller,
                                             phonecontroller: phonecontroller,
                                             passcontroller: passcontroller),
                                       );
+                                     } else {
+                                       Get.snackbar(
+                                        "Upload Error",
+                                        "Your profile pic is not uploaded please try again.",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                      );
+                                     }
                                     } else {
                                       Get.snackbar(
                                         "Required",
-                                        "Kingly upload your profile pic",
+                                        "Kindly upload your profile pic",
                                         snackPosition: SnackPosition.BOTTOM,
                                       );
                                     }

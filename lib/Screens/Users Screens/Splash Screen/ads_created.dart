@@ -14,7 +14,6 @@ class AdsCreated extends StatefulWidget {
 class _AdsCreatedState extends State<AdsCreated> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Timer(Duration(seconds: 5), () => Get.to(HomeScreen()));
   }
